@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { JsonUtil } from '../utilities/readjsonUtil';
+import * as fs from 'fs';
 
 export class LoginPage {
   private page: Page;
@@ -12,13 +12,16 @@ export class LoginPage {
   }
 
   async navigate() {
-    await this.page.goto(JsonUtil.getUrl());
+    await this.page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
   }
 
   async login() {
-    const credentials = JsonUtil.getCredentials();
-    await this.page.fill(this.usernameInput, credentials.username);
-    await this.page.fill(this.passwordInput, credentials.password);
+
+    const loginData = JSON.parse(fs.readFileSync('testdata/logindata.json', 'utf-8'));
+    const { username, password } = loginData;   
+   
+    await this.page.fill(this.usernameInput, username);
+    await this.page.fill(this.passwordInput, password);
     await this.page.click(this.loginButton);
   }
 }
