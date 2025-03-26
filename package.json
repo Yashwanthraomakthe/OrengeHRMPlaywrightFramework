@@ -9,6 +9,8 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.51.0",
-    "@types/node": "^22.13.10"
+    "@types/node": "^22.13.10",
+    "ortoni-report": "^3.0.0",
+    "typescript": "^5.8.2"
   }
 }

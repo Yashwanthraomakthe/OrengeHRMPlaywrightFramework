@@ -1,4 +1,27 @@
 import { defineConfig, devices } from '@playwright/test';
+import { OrtoniReportConfig } from "ortoni-report";
+
+const reportConfig = {
+  open: process.env.CI ? "never" : "always",
+  folderPath: "report-db",
+  filename: "index.html",
+  title: "Ortoni Test Report",
+  showProject: !true,
+  projectName: "Ortoni-Report",
+  testType: "e2e",
+  authorName: "Koushik (LetCode with Koushik)",
+  base64Image: false,
+  stdIO: false,
+  preferredTheme: "light",
+  meta: {
+    project: "Playwright",
+    version: "3.0.0",
+    description: "Playwright test report",
+    testCycle: "1",
+    release: "1.0.0",
+    platform: "Windows",
+  },
+};
 
 /**
  * Read environment variables from file.
@@ -19,10 +42,12 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
+  workers: 3,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  //workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { outputFolder: 'HTML-report' }]],
+  reporter: [['html', { outputFolder: 'HTML-report' }],["ortoni-report", reportConfig]],
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
